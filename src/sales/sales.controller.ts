@@ -8,9 +8,12 @@ import {
   HttpStatus,
   Param,
   Query,
+  Body,
+  Req,
 } from '@nestjs/common';
 import { SalesService } from './sales.service';
-import { SalesDto } from './dto/sales.dto';
+import { NewSaleDto, SalesDto, UpdateSaleDto } from './dto/sales.dto';
+import { RequestAuth } from 'src/auth/types/request.type';
 
 @Controller('sales')
 export class SalesController {
@@ -36,8 +39,8 @@ export class SalesController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async updateSaleById(@Param('id') id: string, @Query() params: SalesDto) {
-    return await this.salesService.updateSaleById(id, params);
+  async updateSaleById(@Param('id') id: string, @Body() body: UpdateSaleDto) {
+    return await this.salesService.updateSaleById(id, body);
   }
 
   @Delete(':id')
@@ -48,7 +51,11 @@ export class SalesController {
 
   @Post('')
   @HttpCode(HttpStatus.CREATED)
-  async createSale(@Query() params: SalesDto) {
-    return await this.salesService.createSale(params);
+  async createSale(@Body() body: NewSaleDto, @Req() req: RequestAuth) {
+    return await this.salesService.createSale({
+      ...body,
+      quantity: Number(body.quantity),
+      registeredBy: Boolean(body.isRegistered) ? req.user.id : null,
+    });
   }
 }

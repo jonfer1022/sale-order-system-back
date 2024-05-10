@@ -1,7 +1,5 @@
 import { JwtModule } from '@nestjs/jwt';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { environments } from './common/utils/enviroments';
 import {
@@ -12,6 +10,9 @@ import { databaseProviders } from './database/database.provider';
 import { AuthModule } from './auth/auth.module';
 import { AuthMiddleware } from './common/middlewares/auth.middleware';
 import { SalesModule } from './sales/sales.module';
+import { UsersModule } from './users/users.module';
+import { CustomersModule } from './customers/customers.module';
+import { ProductsModule } from './products/products.module';
 
 const pathsExclude = ['/auth/signup', '/auth/signin'];
 
@@ -23,14 +24,12 @@ const pathsExclude = ['/auth/signup', '/auth/signin'];
       load: [environments],
     }),
     JwtModule.register({}),
+    UsersModule,
+    CustomersModule,
+    ProductsModule,
   ],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    ...databaseProviders,
-    ...userProvider,
-    ...salesProvider,
-  ],
+  controllers: [],
+  providers: [...databaseProviders, ...userProvider, ...salesProvider],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
