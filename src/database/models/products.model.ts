@@ -13,7 +13,10 @@ import {
 import { Sizes, TypeProducts } from '.';
 import { Colors } from '../../common/utils/enums';
 
-@Table
+@Table({
+  tableName: 'Products',
+  schema: 'public',
+})
 export class Products extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)

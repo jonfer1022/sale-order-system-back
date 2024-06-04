@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Products, Sizes, TypeProducts } from 'src/database/models';
+import { Products, Sizes, TypeProducts } from '../database/models';
 
 @Injectable()
 export class ProductsService {
@@ -24,7 +24,7 @@ export class ProductsService {
         ],
       });
     } catch (error) {
-      console.log('-----> getProducts ~ error:', error);
+      console.log('-----> getProducts ~ error:', error.message);
       throw new Error('Something went wrong');
     }
   }

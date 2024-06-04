@@ -5,7 +5,7 @@ import {
   IsBoolean,
   IsNumber,
 } from 'class-validator';
-import { StatusOrder } from 'src/common/utils/enums';
+import { StatusOrder } from '../../common/utils/enums';
 
 export class SalesDto {
   @IsOptional()

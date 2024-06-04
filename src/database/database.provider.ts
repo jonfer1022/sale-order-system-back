@@ -7,11 +7,12 @@ export const databaseProviders = [
     provide: 'SEQUELIZE',
     useFactory: async () => {
       const env = environments();
-      const sequelize = new Sequelize({
-        dialect: 'postgres',
-        ...env.database,
-      });
       try {
+        const sequelize = new Sequelize({
+          dialect: 'postgres',
+          ...env.database,
+          define: { schema: 'public' },
+        });
         sequelize.addModels(Object.values(models));
         await sequelize.sync();
         console.log('Db connection established');

@@ -14,7 +14,7 @@ export class UsersService {
         attributes: ['id', 'name', 'email'],
       });
     } catch (error) {
-      console.log('-----> getUsers ~ error:', error);
+      console.log('-----> getUsers ~ error:', error.message);
       throw new Error('Something went wrong');
     }
   }

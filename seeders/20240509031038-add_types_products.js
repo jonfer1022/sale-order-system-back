@@ -42,7 +42,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     try {
       console.log('-----> ~ up ~ seed', seed, table);
-      return queryInterface.bulkInsert(table, seed, {});
+      return queryInterface.bulkInsert(
+        { tableName: table, schema: 'public' },
+        seed,
+        {},
+      );
     } catch (error) {
       console.log('ERROR: ', error);
     }

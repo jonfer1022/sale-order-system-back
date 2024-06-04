@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Op, OrderItem } from 'sequelize';
-import { StatusOrder } from 'src/common/utils/enums';
+import { StatusOrder } from '../common/utils/enums';
 import {
   Customer,
   Products,
@@ -8,7 +8,7 @@ import {
   Sizes,
   TypeProducts,
   User,
-} from 'src/database/models';
+} from '../database/models';
 
 interface ISales {
   status?: StatusOrder | undefined;
@@ -61,7 +61,7 @@ export class SalesService {
         ],
       });
     } catch (error) {
-      console.log('-----> getSales ~ error:', error);
+      console.log('-----> getSales ~ error:', error.message);
       throw new Error('Something went wrong');
     }
   }
@@ -112,7 +112,7 @@ export class SalesService {
         ],
       });
     } catch (error) {
-      console.log('-----> getSalesById ~ error:', error);
+      console.log('-----> getSalesById ~ error:', error.message);
       throw new Error('Something went wrong');
     }
   }
@@ -134,8 +134,8 @@ export class SalesService {
       }
       return await this.salesRepository.destroy({ where: { id } });
     } catch (error) {
-      console.log('-----> deleteSaleById ~ error:', error);
-      throw new Error('Something went wrong');
+      console.log('-----> deleteSaleById ~ error:', error.message);
+      throw new Error(error.message || 'Something went wrong');
     }
   }
 
@@ -144,10 +144,11 @@ export class SalesService {
       const product = await this.productsRepository.findOne({
         where: { id: data.productId },
       });
-      if (product.stock < data.quantity) {
-        throw new Error('Not enough stock');
-      } else if (product.stock === 0) {
+
+      if (product.stock === 0) {
         throw new Error('Product out of stock');
+      } else if (product.stock < data.quantity) {
+        throw new Error('Not enough stock');
       }
 
       product.stock -= data.quantity;
@@ -171,8 +172,8 @@ export class SalesService {
 
       return sale;
     } catch (error) {
-      console.log('-----> createSale ~ error:', error);
-      throw new Error('Something went wrong');
+      console.log('-----> createSale ~ error:', error.message);
+      throw new Error(error.message || 'Something went wrong');
     }
   }
 }

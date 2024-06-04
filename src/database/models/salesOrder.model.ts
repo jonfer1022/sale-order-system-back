@@ -13,7 +13,10 @@ import {
 import { Customer, Products, User } from '.';
 import { StatusOrder } from '../../common/utils/enums';
 
-@Table
+@Table({
+  tableName: 'SalesOrders',
+  schema: 'public',
+})
 export class SalesOrder extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)

@@ -11,7 +11,10 @@ import {
 } from 'sequelize-typescript';
 import { SalesOrder } from '.';
 
-@Table
+@Table({
+  tableName: 'Customers',
+  schema: 'public',
+})
 export class Customer extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)

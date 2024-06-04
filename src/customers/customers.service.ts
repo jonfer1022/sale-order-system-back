@@ -14,7 +14,7 @@ export class CustomersService {
         attributes: ['id', 'name', 'email', 'phone', 'address'],
       });
     } catch (error) {
-      console.log('-----> getCustomers ~ error:', error);
+      console.log('-----> getCustomers ~ error:', error.message);
       throw new Error('Something went wrong');
     }
   }
